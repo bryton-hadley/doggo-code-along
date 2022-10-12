@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react"
+import "./App.css"
+import DogBreed from './DogBreed'
 
 function App() {
+  const [newBreed, setNewBreed] = useState("")
+  const [dogBreeds, setDogBreeds] = useState(['Husky', 'Chihuahua'])
+  const [favoriteBreed, setFavoriteBreed] = useState('Undetermind')
+
+  const handleChange = element => {
+    element.preventDefault()
+    setNewBreed(element.target.value)
+  }
+  const handleSubmit = element => {
+    element.preventDefault()
+    setDogBreeds([...dogBreeds, newBreed])
+    setNewBreed("")
+  }
+  const updateFavorite = newFav => {
+    setFavoriteBreed(newFav)
+  }
+
+  console.log(dogBreeds)
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <p>My favorite breed is {favoriteBreed}</p>
+      <form onSubmit={element => handleSubmit(element)}>
+        <label>New dog breed</label>
+        <input value={newBreed} onChange={element => handleChange(element)} />
+      </form>
+      <DogBreed dogBreed={dogBreeds[0]} updateFavorite={updateFavorite}/>
+      <DogBreed dogBreed={dogBreeds[1]} updateFavorite={updateFavorite}/>
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
